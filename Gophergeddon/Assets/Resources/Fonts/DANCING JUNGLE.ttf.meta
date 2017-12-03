@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 82d162418d54daf4689f303dee268b35
+timeCreated: 1507317520
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: DANCING JUNGLE
+  fontNames:
+  - DANCING JUNGLE
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
