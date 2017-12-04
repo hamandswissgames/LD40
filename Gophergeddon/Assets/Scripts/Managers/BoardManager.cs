@@ -14,10 +14,13 @@ public class BoardManager : MonoBehaviour {
 	public void BuildBoard(){
 		for (int i = 0; i < size.x; i++) {
 			for (int j = 0; j < size.y; j++) {
-				GameObject tile = Instantiate (tilePrefab, boardParent);
-				tile.transform.localPosition = new Vector2 (i, j);
-				tile.GetComponent<SpriteRenderer> ().sprite = grassSprite;
-				tiles.Add (tile.transform.localPosition, tile);
+				Vector2 v = new Vector2 (i, j);
+				if (!tiles.ContainsKey (v)) {
+					GameObject tile = Instantiate (tilePrefab, boardParent);
+					tile.transform.localPosition = v;
+					tile.GetComponent<SpriteRenderer> ().sprite = grassSprite;
+					tiles.Add (tile.transform.localPosition, tile);
+				}
 			}
 		}
 		boardParent.transform.position = new Vector2 (-size.x / 2 + .5f, -size.y / 2 + .5f);	
@@ -28,12 +31,15 @@ public class BoardManager : MonoBehaviour {
 		size.x += 2;
 		size.y += 2;
 		Camera.main.orthographicSize += 1;
-		foreach(Vector2 key in tiles.Keys){
-			Destroy (tiles [key]);
-		}
-		tiles.Clear ();
 		BuildBoard ();
 
 
+	}
+
+	public void Reset (){
+		for (int i = boardParent.childCount - 1; i >= 0; i--) {
+			Destroy (boardParent.GetChild (i).gameObject);
+		}
+		tiles.Clear ();
 	}
 }

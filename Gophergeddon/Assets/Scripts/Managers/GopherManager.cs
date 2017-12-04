@@ -26,6 +26,12 @@ public class GopherManager : AnimalManager {
 		if (animals.Count > 0) {
 			interval = 50 / animals.Count;
 		}
+		if (animals.Count >= GameManager.instance.boardManager.size.x * GameManager.instance.boardManager.size.y * .6f) {
+			GameManager.instance.SetMessage ("The gophers are getting out of control!!");
+		}
+		if (animals.Count >= GameManager.instance.boardManager.size.x * GameManager.instance.boardManager.size.y * .9f) {
+			GameManager.instance.GameOver ("Gophergeddon!  The gophers have overrun the entire planet.", true);
+		}
 	}
 
 	public override void SpawnRandomAnimal(){
@@ -33,12 +39,14 @@ public class GopherManager : AnimalManager {
 		Vector2 gPos = new Vector2(Random.Range (0, (int)size.x), Random.Range (0, (int)size.y));
 		GameObject tile = GameManager.instance.boardManager.tiles [gPos];
 		if (tile.transform.childCount == 0) {
-			GameObject gopher = Instantiate (AnimalPrefab, tile.transform);
+			GameObject gopher = Instantiate (AnimalData.prefab, tile.transform);
 			gopher.GetComponent<Inhabitant> ().manager = this;
 			animals.Add (gopher);
 		} else {
 			timer = interval * .8f;
 		}
+
+
 	}
 
 	public void SpawnInitialGophers(){

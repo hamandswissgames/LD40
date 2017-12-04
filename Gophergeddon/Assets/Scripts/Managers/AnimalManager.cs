@@ -7,7 +7,7 @@ public class AnimalManager : MonoBehaviour {
 
 	public float interval = 1;
 	protected float timer = 0;
-	public GameObject AnimalPrefab;
+	public InhabitantData AnimalData;
 	public Text populationText;
 	public List<GameObject> animals = new List<GameObject> ();
 	public int allowedAnimalCount;
@@ -17,7 +17,6 @@ public class AnimalManager : MonoBehaviour {
 	public Button BuildAnimalButton;
 	public Button BuildKillerButton;
 
-
 	public bool isComplete {
 		get {
 			if (animals.Count <= allowedAnimalCount)
@@ -26,8 +25,12 @@ public class AnimalManager : MonoBehaviour {
 			return false;
 		}
 	}
-	public virtual void LevelUp(){
+	public virtual void Reset(){
+		timer = interval + 1;
 		ClearAnimals ();
+		if (BuildAnimalButton != null) {
+			BuildAnimalButton.gameObject.SetActive (false);
+		}
 	}
 	// Update is called once per frame
 	void Update () {
@@ -41,7 +44,10 @@ public class AnimalManager : MonoBehaviour {
 		} else {
 			populationText.color = underPopulationColor;
 		}
+		DoUpdate ();
 	}
+	protected virtual void DoUpdate(){}
+
 	public void ClearAnimals(){
 		for (int i = animals.Count - 1; i >= 0; i--) {
 			Destroy (animals[i]);
@@ -59,9 +65,10 @@ public class AnimalManager : MonoBehaviour {
 		if (timer > interval && animals.Count < GameManager.instance.boardManager.size.x * GameManager.instance.boardManager.size.y / 2) {
 			timer = 0;
 			GameObject tile = GameManager.instance.boardManager.tiles [pos];
-			GameObject animal = Instantiate (AnimalPrefab, tile.transform);
+			GameObject animal = Instantiate (AnimalData.prefab, tile.transform);
 			animals.Add (animal);
 			animal.GetComponent<Inhabitant> ().manager = this;
+	
 		}	
 
 	}

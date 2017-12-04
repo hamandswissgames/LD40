@@ -4,5 +4,9 @@ using UnityEngine;
 
 public class CatManager : AnimalManager {
 
-
+	public override void Reset ()
+	{
+		base.Reset ();
+		BuildAnimalButton.gameObject.SetActive (true);
+	}
 }
